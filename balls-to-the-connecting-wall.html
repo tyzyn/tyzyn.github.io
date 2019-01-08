@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>TYZYN</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
+        <link href="./" type="application/atom+xml" rel="alternate" title="TYZYN ATOM Feed" />
+
+        <!--[if IE]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+        <!--[if lte IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="./css/ie.css"/>
+                <script src="./js/IE8.js" type="text/javascript"></script><![endif]-->
+
+        <!--[if lt IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="./css/ie6.css"/><![endif]-->
+
+</head>
+
+<body>
+	<div id="wrap" style="width:1100px">
+
+	    <div id="container" style="width:700px">
+
+            <div class="entry">
+<header>
+<h1><a href="." id="site-title">  </a>         <a href="./balls-to-the-connecting-wall.html" id="page-title">Balls to the Connecting Wall</a></h1>
+
+<time datetime="2019-01-08T00:00:00+00:00">Tue 08 January 2019</time>
+</header>
+<article>
+    <p>I'm a huge fan of quiz shows, and in particular the BBC show Only Connect. I've
+always wanted to see if I could hold my own against the teams at the "Connecting Wall",
+and have since found an online game <a href="http://www.puzzgrid.com">here</a> inspired by the show,
+however I wanted to try this out with real walls from the show.</p>
+<p align="center">
+  <img src="images/only_connect_1.png" style="width:400px;>
+</p>
+
+<p align="right"></p>
+
+<p>Inspired another <a href="http://nequals30.com/?p=378">blog post</a> which scraped YouTube video subtitles for University Challenge questions, I decided that it probably wouldn't be too difficult to put together an automated way of grabbing walls from Only
+Connect videos.</p>
+<p>However I was soon left scratching my head. Ideally I wanted to extract frames from the YouTube
+video, at the exact moment the solved connecting wall was in frame. In the recent series the graphics
+haven't changed, and so the positioning of it remains stationary - however the time at which it appears
+is completely variable.</p>
+<p>I realised that Victoria Coren Mitchell says certain things when the wall has been solved/the time limit is up:
+<em>"you've solved the wall"</em>, or <em>"what about the green group"</em> or <em>"let's resolve the wall"</em> being some of them.</p>
+<p>So if I had a way to find out when these things were said, the search space of finding the frames that contain
+the wall would be tightened - and this is where subtitles come in!</p>
+<p>With some help from some code I found on <a href="https://github.com/mkly/youtube-closed-captions">Github</a> it turns out the manually
+written / auto-generated subtitle files are rather easy to download from YouTube videos in very few lines of Python.</p>
+<p>And with some processing you can get to a list of pairs like this:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="s2">&quot;&#39;00:22:11.970 --&gt; 00:22:11.980&quot;</span><span class="p">,</span> <span class="s2">&quot;and a half minutes solve the water wall&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Then it's a matter of finding the pairs that have some meaningful information in. I found that the following
+searching method produced some good timestamps, although it's fairly naive.</p>
+<div class="highlight"><pre><span></span><span class="c1">#phrase check for subs that would suggest a solved wall</span>
+<span class="k">def</span> <span class="nf">solved_wall</span><span class="p">(</span><span class="n">sub</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">sub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;group&quot;</span><span class="p">,</span> <span class="s2">&quot;resolve&quot;</span><span class="p">])</span>
+
+<span class="c1">#timestamps at which the connecting wall may be on screen</span>
+<span class="n">wall_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">subs</span> <span class="k">if</span> <span class="n">solved_wall</span><span class="p">(</span><span class="n">sub</span><span class="p">)]</span>
+</pre></div>
+
+
+<p>After this these timestamps can be turned into real numbers, and then plugged into
+code that can grab frames from a YouTube video at that time. This is also a fairly
+trivial task that can be solved using the Python libraries pafy and cv2, instead of
+having to download the entire video.</p>
+<div class="highlight"><pre><span></span><span class="c1">#load the youtube video into a video capture</span>
+<span class="n">vpafy</span> <span class="o">=</span> <span class="n">pafy</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">play</span> <span class="o">=</span> <span class="n">vpafy</span><span class="o">.</span><span class="n">getbestvideo</span><span class="p">(</span><span class="n">preftype</span><span class="o">=</span><span class="s2">&quot;mp4&quot;</span><span class="p">)</span>
+<span class="n">vidcap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">play</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+
+<span class="c1">#iterate through timestamps in order, if you find a wall add to list</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">timestamps</span><span class="p">):</span>
+    <span class="c1">#grab image at timestamp t</span>
+    <span class="n">vidcap</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_POS_MSEC</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="mi">1000</span><span class="p">))</span>
+    <span class="n">success</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">vidcap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+
+
+<p>After this we crop to the dimensions of a wall in the shot, and then we (maybe)
+have a cropped wall image.</p>
+<p align="center">
+  <img src="images/only_connect_2.png" style="width:400px;>
+</p>
+
+<p align="right"></p>
+
+<p>But what makes a wall a wall?</p>
+<p>At first I was wondering if I'd need some sort of complex computer vision algorithm to
+determine if the cropped shot is a wall, but it can be done in a far easier way.</p>
+<p>The colouring of a solved wall as shown here is another constant of the show, so if we
+take the average colour of the first column, we can test the average colour of that area
+of found shots againsts it. Using euclidean distance between our <code>average_wall_colour</code> and
+<code>average_found_colour</code> and a threshold value, we can come up with an estimation of
+whether a frame contains a wall or not.</p>
+<p>And that's more or less it!</p>
+<p>After this I extracted the first and last known wall images (hoping that they
+were the solved lion and water walls) and from here all that needs doing is using
+OCR to extract the text from walls. I like <code>pytesseract</code> although this can be a little
+temperamental sometimes. To combat this the images were preprocessed to be black
+text on a white background (using PIL) which made OCR accuracy far higher.</p>
+<p>Now let's resolve the wall!</p>
+<div class="highlight"><pre><span></span><span class="n">Cover</span><span class="p">,</span> <span class="n">Gully</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">Long</span> <span class="n">on</span>
+<span class="n">Ditch</span><span class="p">,</span> <span class="n">Gutter</span><span class="p">,</span> <span class="n">Culvert</span><span class="p">,</span> <span class="n">Channel</span>
+<span class="n">Catcher</span><span class="p">,</span> <span class="n">Slip</span><span class="p">,</span> <span class="n">Pat</span><span class="p">,</span> <span class="n">Boy</span>
+<span class="n">Trench</span><span class="p">,</span> <span class="n">Butch</span><span class="p">,</span> <span class="n">Creek</span><span class="p">,</span> <span class="n">Banish</span>
+</pre></div>
+</article>
+            </div>
+        </div>
+
+
+        <div id="sidebar">
+            <!-- Below are the title and description seen in the sidebar. -->
+            <h1><a href=".">TYZYN</a></h1>
+
+            <div class="image-container">
+
+            <img src="./images/me.jpg" style="width:250px; border-radius: 50%;" class="image">
+
+            <a href="./about.html" style="color: white;">
+            <div class="overlay">
+            <div class="text">Chris Tyson</div>
+            </div>
+            </a>
+            </div>
+            <br></br>
+            <p style="text-align:left">Hi I'm Chris, and this is a blog for me to archive and share some of the programming projects that I
+            get up to, along with some other things (probably recipes).
+            <br></br>
+            You can find me on twitter <a href="https://twitter.com/tyzyn">here</a>.
+            <br></br>
+            My very underused Github <a href="https://github.com/tyzyn">here</a>.
+            <br></br>
+            And you can contact me at <a href="mailto: christyson@protonmail.com">christyson@protonmail.com</a></p>
+            <br></br>
+            <ol>
+            <li style="list-style-type:none;"><a href="./posts.html">Posts</a></li>
+            <li style="list-style-type:none;"><a href="./categories.html">Categories</a></li>
+            <li style="list-style-type:none;"><a href="./tags.html">Tags</a></li>
+          </ol>
+        </div>
+
+        <div id="footer">
+          <!--
+            <nav>
+                <ul>
+              </ul>
+            </nav>
+            -->
+            <div id="credits">
+
+                <li><span>Adapted from <a href="http://wordpress.org/themes/monospace">Monospace</a> | Created with <a href="https://github.com/getpelican/pelican">Pelican</a></span><li>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</body>
+</html>
