@@ -24,13 +24,13 @@
 	    <div id="container" style="width:700px">
 
             <div class="entry">
+<header>
+<h1><a href="." id="site-title">  </a>         <a href="./in-the-spot-light.html" id="page-title">In the Spot-light</a></h1>
 
-            <!--<header>-->
-            <h1><a href="." id="site-title">  </a>  <a href="./in-the-spot-light.html" id="page-title">In the Spot-light</a></h1>
-<time datetime="2019-02-05T00:00:00+00:00">Tue 05 February 2019</time>            <!--</header>-->
-
-            <article>
-                <p>A few months ago I bought some "Yeelight" bulbs, a cheaper, versatile, Chinese alternative to many of the popular smart bulbs on the market. However because they're quite obscure, I've found that it can often be quite hard to integrate things with them. My Alexa doesn't even seem to recognise them as devices, but I can still use IFTTT to turn them on, change colours, "scenes" etc.</p>
+<time datetime="2019-02-05T00:00:00+00:00">Tue 05 February 2019</time>
+</header>
+<article>
+    <p>A few months ago I bought some "Yeelight" bulbs, a cheaper, versatile, Chinese alternative to many of the popular smart bulbs on the market. However because they're quite obscure, I've found that it can often be quite hard to integrate things with them. My Alexa doesn't even seem to recognise them as devices, but I can still use IFTTT to turn them on, change colours, "scenes" etc.</p>
 <p>I wanted to see if I could get them to have more complex behaviour, and one thing I was really interested in trying was to get them to sync to my current playing song on Spotify.</p>
 <p>I went about trying to do this, and found some code for developers on the Yeelight website that can do things like toggle lights on and off, change brightness...</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">operate_on_bulb</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
@@ -184,9 +184,8 @@
 <p>I think my method of extracting colours could still do with some tweaking. For example, I could look at colours that work well together in the artwork. In the album art for "Melodrama" by Lorde, my program gets a light and a dark blue. Whereas a dark blue and the warm skin tone colour could be used instead that would possibly be a more visually pleasing / representative combination.</p>
 <p>I've also thought about the use of another colour space, as perhaps RGB isn't too appropriate. The standard sklearn KMeans will assume a euclidean distance measure, but something like Manhattan distance could also work better with RGB, as I've been assuming RGB "coordinates".</p>
 <p>As well, the method I've used doesn't really do much with album art that is totally black and white. In this case I've currently got it so that the program does nothing when you play a song with black and white album art (a line makes sure that if you strip out all "uninteresting" pixels leaving nothing left, the program breaks before running KMeans on an empty list). Perhaps in the future I might make it change the lights to a random choice from a selection of colours that work well.</p>
-<p>However I feel as though what I have so far works well enough, and certainly makes for some interesting mood lighting.</p>            </article>
-
-
+<p>However I feel as though what I have so far works well enough, and certainly makes for some interesting mood lighting.</p>
+</article>
             </div>
         </div>
 

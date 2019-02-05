@@ -26,93 +26,165 @@
             <div class="entry">
 
             <!--<header>-->
-            <h1><a href=".." id="site-title">  </a>  <a href="../balls-to-the-connecting-wall.html" id="page-title">Balls to the Connecting Wall</a></h1>
-<time datetime="2019-01-08T00:00:00+00:00">Tue 08 January 2019</time>            <!--</header>-->
+            <h1><a href=".." id="site-title">  </a>  <a href="../in-the-spot-light.html" id="page-title">In the Spot-light</a></h1>
+<time datetime="2019-02-05T00:00:00+00:00">Tue 05 February 2019</time>            <!--</header>-->
 
             <article>
-                <p>I'm a huge fan of quiz shows, and in particular the BBC show Only Connect. I've
-always wanted to see if I could hold my own against the teams at the "Connecting Wall",
-and have since found an online game <a href="http://www.puzzgrid.com">here</a> inspired by the show,
-however I wanted to try this out with real walls from the show.</p>
+                <p>A few months ago I bought some "Yeelight" bulbs, a cheaper, versatile, Chinese alternative to many of the popular smart bulbs on the market. However because they're quite obscure, I've found that it can often be quite hard to integrate things with them. My Alexa doesn't even seem to recognise them as devices, but I can still use IFTTT to turn them on, change colours, "scenes" etc.</p>
+<p>I wanted to see if I could get them to have more complex behaviour, and one thing I was really interested in trying was to get them to sync to my current playing song on Spotify.</p>
+<p>I went about trying to do this, and found some code for developers on the Yeelight website that can do things like toggle lights on and off, change brightness...</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">operate_on_bulb</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">  Operate on bulb; no gurantee of success.</span>
+<span class="sd">  Input data &#39;params&#39; must be a compiled into one string.</span>
+<span class="sd">  E.g. params=&quot;1&quot;; params=&quot;\&quot;smooth\&quot;&quot;, params=&quot;1,\&quot;smooth\&quot;,80&quot;</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">bulb_idx2ip</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s2">&quot;error: invalid bulb idx&quot;</span>
+    <span class="k">return</span>
+
+  <span class="n">bulb_ip</span><span class="o">=</span><span class="n">bulb_idx2ip</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">bulb_ip</span><span class="p">)</span>
+  <span class="n">port</span><span class="o">=</span><span class="n">detected_bulbs</span><span class="p">[</span><span class="n">bulb_ip</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">tcp_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s2">&quot;connect &quot;</span><span class="p">,</span><span class="n">bulb_ip</span><span class="p">,</span> <span class="n">port</span> <span class="p">,</span><span class="s2">&quot;...&quot;</span>
+    <span class="n">tcp_socket</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">bulb_ip</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)))</span>
+    <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;{</span><span class="se">\&quot;</span><span class="s2">id</span><span class="se">\&quot;</span><span class="s2">:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">next_cmd_id</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;,</span><span class="se">\&quot;</span><span class="s2">method</span><span class="se">\&quot;</span><span class="s2">:</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="n">method</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">params</span><span class="se">\&quot;</span><span class="s2">:[&quot;</span> <span class="o">+</span> <span class="n">params</span> <span class="o">+</span> <span class="s2">&quot;]}</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+    <span class="n">tcp_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">tcp_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s2">&quot;Unexpected error:&quot;</span><span class="p">,</span> <span class="n">e</span>
+</pre></div>
+
+
+<p>The code uses this <code>operate_on_bulb</code> function, and needs to be sent with my computer on the same Wifi network that my bulbs are connected to. When you run the code you are able to list the available bulbs that you are connected to, and each bulb receives an index starting at 1. A function is given that uses this <code>operate_on_bulb</code> function that can change the brightness of lights:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">set_bright</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">bright</span><span class="p">):</span>
+  <span class="n">operate_on_bulb</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;set_bright&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">bright</span><span class="p">))</span>
+</pre></div>
+
+
+<p>So for example I can use <code>set_bright(1, 50)</code> to change the bulb with 1st index to 50% brightness. With some reading of the "Yeelight WiFi Light Inter-Operation Specification" (say that 5 times fast) I figured out that with some minor tweaking you can get the code to change bulb colour. The colour must be passed in decimal format, so this can be translated from the more readable hex code representation rather easily using Python's native int function.</p>
+<p>My function for changing colour is below (forgive the American-English):</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">set_color</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">rgb</span><span class="p">):</span>
+  <span class="n">rgb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+  <span class="n">operate_on_bulb</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;set_rgb&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">rgb</span><span class="p">))</span>
+</pre></div>
+
+
+<p>So if I wanted to change the colour of the 1st indexed bulb to pure red, i.e. <code>"#ff0000"</code>, I can call <code>set_color(1, "ff0000")</code>. The hex code <code>"ff0000"</code> will be translated to the integer <code>int("ff0000", 16) -&gt; 16711680</code>, which will then be sent over as a string.</p>
+<h2>The Spotify Problem</h2>
+<p>Now that I had this working I wanted to turn my attention to getting the current song on Spotify, because if that wasn't feasible then the whole project would fall down. I looked at the api for a while and found nothing that would be appropriate, especially with rate limiting getting in the way.</p>
+<p>However seeing as my code would need to be running on my computer anyway, and the Spotify client updates the current playing song on all devices at the same time, there is an easier way.</p>
+<p>I found someone on <a href="https://askubuntu.com/questions/852366/how-to-get-the-name-of-the-music-currently-playing-in-spotify">askubuntu</a> asking about how to get the current playing song on spotify using the command line (given that the Spotify client is currently open on the same computer). The following command was given and this only gets the current song title:</p>
+<div class="highlight"><pre><span></span>dbus-send --print-reply --dest<span class="o">=</span>org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata <span class="p">|</span> sed -n <span class="s1">&#39;/title/{n;p}&#39;</span> <span class="p">|</span> cut -d <span class="s1">&#39;&quot;&#39;</span> -f <span class="m">2</span>
+</pre></div>
+
+
+<p>However with a bit more investigation of what this command is doing, you're able to get a lot more information by taking out some of these commands. If we reduce the command to:</p>
+<div class="highlight"><pre><span></span>dbus-send --print-reply --dest<span class="o">=</span>org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata
+</pre></div>
+
+
+<p>Then out comes a bunch more information about the current playing song:</p>
+<div class="highlight"><pre><span></span>method <span class="k">return</span> <span class="nv">time</span><span class="o">=</span><span class="m">1549364930</span>.028762 <span class="nv">sender</span><span class="o">=</span>:1.149 -&gt; <span class="nv">destination</span><span class="o">=</span>:1.1121207 <span class="nv">serial</span><span class="o">=</span><span class="m">1122063</span> <span class="nv">reply_serial</span><span class="o">=</span><span class="m">2</span>
+   variant       array <span class="o">[</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;mpris:trackid&quot;</span>
+            variant                string <span class="s2">&quot;spotify:track:60AEGzxRNUQ3Pzg4tygzJC&quot;</span>
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;mpris:length&quot;</span>
+            variant                uint64 <span class="m">319000000</span>
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;mpris:artUrl&quot;</span>
+            variant                string <span class="s2">&quot;https://open.spotify.com/image/50d898136e5150ce32cb88d7d48824c8d59f3c89&quot;</span>
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;xesam:album&quot;</span>
+            variant                string <span class="s2">&quot;This Is All Yours&quot;</span>
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;xesam:albumArtist&quot;</span>
+            variant                array <span class="o">[</span>
+                  string <span class="s2">&quot;alt-J&quot;</span>
+               <span class="o">]</span>
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;xesam:artist&quot;</span>
+            variant                array <span class="o">[</span>
+                  string <span class="s2">&quot;alt-J&quot;</span>
+               <span class="o">]</span>
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;xesam:autoRating&quot;</span>
+            variant                double <span class="m">0</span>.45
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;xesam:discNumber&quot;</span>
+            variant                int32 <span class="m">1</span>
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;xesam:title&quot;</span>
+            variant                string <span class="s2">&quot;Bloodflood, Pt. II&quot;</span>
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;xesam:trackNumber&quot;</span>
+            variant                int32 <span class="m">12</span>
+         <span class="o">)</span>
+         dict entry<span class="o">(</span>
+            string <span class="s2">&quot;xesam:url&quot;</span>
+            variant                string <span class="s2">&quot;https://open.spotify.com/track/60AEGzxRNUQ3Pzg4tygzJC&quot;</span>
+         <span class="o">)</span>
+      <span class="o">]</span>
+</pre></div>
+
+
+<p>And one of the things we can see here is the url for the album art - perfect! This has now solved what was to be the next problem, so we now skip to extracting dominant colours from an image:</p>
+<h2>Extracting Colour</h2>
+<p>I originally thought extracting dominant, salient colours from an images that are <strong>also</strong> aethestically pleasing would be a fairly easy task, or that there would at least be a convenient Python library or one-liner that could do this for me. I was wrong.</p>
+<p>This is a rather ill-posed problem, with an input that can range wildly. There are also edge cases such as: what do you do when posed with album art that is totally black and white? (which it turns out, there is a lot of...)</p>
+<p>In the end, after reading a number of webpages about Colour Theory and tearing my hair out, I decided to settle for a k-means based approach which clusters image colours based on pixel rgb "coordinates".</p>
+<div class="highlight"><pre><span></span><span class="n">pixels</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pixels</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">width</span><span class="p">:(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">height</span><span class="p">)])</span>
+
+<span class="c1">#make image list of &quot;interesting&quot; (non-grey) pixels</span>
+<span class="k">def</span> <span class="nf">interesting_pixel</span><span class="p">(</span><span class="n">pixel</span><span class="p">):</span>
+    <span class="c1">#pixel is too grey</span>
+    <span class="n">too_grey</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pixel</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">pixel</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">70</span>
+    <span class="c1">#pixel is too white</span>
+    <span class="n">too_white</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pixel</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">180</span>
+    <span class="c1">#pixel is too black</span>
+    <span class="n">too_black</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pixel</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">70</span>
+
+    <span class="k">return</span> <span class="ow">not</span><span class="p">(</span><span class="n">too_grey</span> <span class="ow">or</span> <span class="n">too_white</span> <span class="ow">or</span> <span class="n">too_black</span><span class="p">)</span>
+
+<span class="n">pixels</span> <span class="o">=</span> <span class="n">pixels</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">pixels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">pixels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">pixels</span> <span class="o">=</span> <span class="p">[</span><span class="n">pixel</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">pixels</span> <span class="k">if</span> <span class="n">interesting_pixel</span><span class="p">(</span><span class="n">pixel</span><span class="p">)]</span>
+</pre></div>
+
+
+<p>My code first rips all the pixels out the images and throws them into a list, after filtering them to make sure they are "interesting". I'm not interested in grey, black or white pixels (or those that are visually similar) so I defined a metric that plays with this concept.</p>
+<p>I then used the KMeans algorithm available in sklearn.cluster to, well... cluster the pixels. The centroids are then used as the "dominant colours" as these are the mean of the cluster. I have two yeelights that are capable of displaying colour, so I thought it would be nice to get the "top two" colours, and then display one on each light.</p>
+<p>The results of this work quite well:</p>
 <p align="center">
-  <img src="images/only_connect_1.png" style="width:400px;>
+  <img src="images/this-is-all-yours.jpeg";><img src="images/this-is-all-yours-cols.png" style="width:400px";>
 </p>
 
-<p align="right"></p>
-
-<p>Inspired another <a href="http://nequals30.com/?p=378">blog post</a> which scraped YouTube video subtitles for University Challenge questions, I decided that it probably wouldn't be too difficult to put together an automated way of grabbing walls from Only
-Connect videos.</p>
-<p>However I was soon left scratching my head. Ideally I wanted to extract frames from the YouTube
-video, at the exact moment the solved connecting wall was in frame. In the recent series the graphics
-haven't changed, and so the positioning of it remains stationary - however the time at which it appears
-is completely variable.</p>
-<p>I realised that Victoria Coren Mitchell says certain things when the wall has been solved/the time limit is up:
-<em>"you've solved the wall"</em>, or <em>"what about the green group"</em> or <em>"let's resolve the wall"</em> being some of them.</p>
-<p>So if I had a way to find out when these things were said, the search space of finding the frames that contain
-the wall would be tightened - and this is where subtitles come in!</p>
-<p>With some help from some code I found on <a href="https://github.com/mkly/youtube-closed-captions">Github</a> it turns out the manually
-written / auto-generated subtitle files are rather easy to download from YouTube videos in very few lines of Python.</p>
-<p>And with some processing you can get to a list of pairs like this:</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="s2">&quot;&#39;00:22:11.970 --&gt; 00:22:11.980&quot;</span><span class="p">,</span> <span class="s2">&quot;and a half minutes solve the water wall&#39;&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<p>Then it's a matter of finding the pairs that have some meaningful information in. I found that the following
-searching method produced some good timestamps, although it's fairly naive.</p>
-<div class="highlight"><pre><span></span><span class="c1">#phrase check for subs that would suggest a solved wall</span>
-<span class="k">def</span> <span class="nf">solved_wall</span><span class="p">(</span><span class="n">sub</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">sub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;group&quot;</span><span class="p">,</span> <span class="s2">&quot;resolve&quot;</span><span class="p">])</span>
-
-<span class="c1">#timestamps at which the connecting wall may be on screen</span>
-<span class="n">wall_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">subs</span> <span class="k">if</span> <span class="n">solved_wall</span><span class="p">(</span><span class="n">sub</span><span class="p">)]</span>
-</pre></div>
-
-
-<p>After this these timestamps can be turned into real numbers, and then plugged into
-code that can grab frames from a YouTube video at that time. This is also a fairly
-trivial task that can be solved using the Python libraries pafy and cv2, instead of
-having to download the entire video.</p>
-<div class="highlight"><pre><span></span><span class="c1">#load the youtube video into a video capture</span>
-<span class="n">vpafy</span> <span class="o">=</span> <span class="n">pafy</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="n">play</span> <span class="o">=</span> <span class="n">vpafy</span><span class="o">.</span><span class="n">getbestvideo</span><span class="p">(</span><span class="n">preftype</span><span class="o">=</span><span class="s2">&quot;mp4&quot;</span><span class="p">)</span>
-<span class="n">vidcap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">play</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-
-<span class="c1">#iterate through timestamps in order, if you find a wall add to list</span>
-<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">timestamps</span><span class="p">):</span>
-    <span class="c1">#grab image at timestamp t</span>
-    <span class="n">vidcap</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_POS_MSEC</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="mi">1000</span><span class="p">))</span>
-    <span class="n">success</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">vidcap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</pre></div>
-
-
-<p>After this we crop to the dimensions of a wall in the shot, and then we (maybe)
-have a cropped wall image.</p>
 <p align="center">
-  <img src="images/only_connect_2.png" style="width:400px;>
+  <img src="images/melodrama.jpeg";><img src="images/melodrama-cols.png" style="width:400px";>
 </p>
 
-<p align="right"></p>
+<p align="center">
+  <img src="images/mind-fuzz.jpeg";><img src="images/mind-fuzz-cols.png" style="width:400px";>
+</p>
 
-<p>But what makes a wall a wall?</p>
-<p>At first I was wondering if I'd need some sort of complex computer vision algorithm to
-determine if the cropped shot is a wall, but it can be done in a far easier way.</p>
-<p>The colouring of a solved wall as shown here is another constant of the show, so if we
-take the average colour of the first column, we can test the average colour of that area
-of found shots againsts it. Using euclidean distance between our <code>average_wall_colour</code> and
-<code>average_found_colour</code> and a threshold value, we can come up with an estimation of
-whether a frame contains a wall or not.</p>
-<p>And that's more or less it!</p>
-<p>After this I extracted the first and last known wall images (hoping that they
-were the solved lion and water walls) and from here all that needs doing is using
-OCR to extract the text from walls. I like <code>pytesseract</code> although this can be a little
-temperamental sometimes. To combat this the images were preprocessed to be black
-text on a white background (using PIL) which made OCR accuracy far higher.</p>
-<p>Now let's resolve the wall!</p>
-<div class="highlight"><pre><span></span><span class="n">Cover</span><span class="p">,</span> <span class="n">Gully</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">Long</span> <span class="n">on</span>
-<span class="n">Ditch</span><span class="p">,</span> <span class="n">Gutter</span><span class="p">,</span> <span class="n">Culvert</span><span class="p">,</span> <span class="n">Channel</span>
-<span class="n">Catcher</span><span class="p">,</span> <span class="n">Slip</span><span class="p">,</span> <span class="n">Pat</span><span class="p">,</span> <span class="n">Boy</span>
-<span class="n">Trench</span><span class="p">,</span> <span class="n">Butch</span><span class="p">,</span> <span class="n">Creek</span><span class="p">,</span> <span class="n">Banish</span>
-</pre></div>            </article>
+<p>However this obviously works best with images with bold colour schemes, as I've demonstrated above.</p>
+<p>I think my method of extracting colours could still do with some tweaking. For example, I could look at colours that work well together in the artwork. In the album art for "Melodrama" by Lorde, my program gets a light and a dark blue. Whereas a dark blue and the warm skin tone colour could be used instead that would possibly be a more visually pleasing / representative combination.</p>
+<p>I've also thought about the use of another colour space, as perhaps RGB isn't too appropriate. The standard sklearn KMeans will assume a euclidean distance measure, but something like Manhattan distance could also work better with RGB, as I've been assuming RGB "coordinates".</p>
+<p>As well, the method I've used doesn't really do much with album art that is totally black and white. In this case I've currently got it so that the program does nothing when you play a song with black and white album art (a line makes sure that if you strip out all "uninteresting" pixels leaving nothing left, the program breaks before running KMeans on an empty list). Perhaps in the future I might make it change the lights to a random choice from a selection of colours that work well.</p>
+<p>However I feel as though what I have so far works well enough, and certainly makes for some interesting mood lighting.</p>            </article>
 
 
             </div>
