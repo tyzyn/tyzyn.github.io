@@ -50,22 +50,27 @@
   
   <div class="slidecontainer">
     
-    <input type="range" min="1" max="100" value="50" id="dateslider" class="slider">
+    <input type="range" min="1577836800000" max="1585699199000" value="1577836800000" id="dateslider" class="slider">
     
   </div>
   
   <script type="text/javascript" src="/time_net.js"></script>
   
   <script>
+    
     var slider = document.getElementById("dateslider");
     var output = document.getElementById("value");
     output.innerHTML = slider.value;
 
     slider.oninput = function() {
-      output.innerHTML = this.value;
+      var d = new Date(parseInt(slider.value));
+      var ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+      var mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d);
+      var da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
+      
+      output.innerHTML = `${da}-${mo}-${ye}`;
     }
   </script>
 
 </body>
 </html>
-
