@@ -10,6 +10,8 @@
 <body>
   <div id="canvas"></div>
     <script>
+    var data = JSON.parse(await FileAttachment("sfhh@4.json").text(), (key, value) => key === "start" || key === "end" ? new Date(value) : value);
+    console.log(data);
     var canvas = d3.select("#canvas") // D3 uses a jQuery like selector
             .append("svg")
             .attr("height", 500)
