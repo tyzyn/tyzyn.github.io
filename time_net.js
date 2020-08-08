@@ -10,6 +10,6 @@ d3.json("/sfhh@4.json", function(data) {
       element.end = new Date(element.end);
     });
     
-    console.log(json);
+    console.log(data);
     
 });
