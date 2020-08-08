@@ -1,4 +1,15 @@
 d3.json("/sfhh@4.json", function(data) {
-    data = JSON.parse(data, (key, value) => key === "start" || key === "end" ? new Date(value) : value);
-    console.log(data);
+    
+    data.nodes.forEach(function(element, index) {
+      element.start = new Date(element.start);
+      element.end = new Date(element.end);
+    });
+    
+    data.links.forEach(function(element, index) {
+      element.start = new Date(element.start);
+      element.end = new Date(element.end);
+    });
+    
+    console.log(json);
+    
 });
