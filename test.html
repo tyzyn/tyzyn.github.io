@@ -46,21 +46,25 @@
 
 <body>
 
-  <p>Hello World 3</p>
+  <p>Value: <span id="value"></span></p>
   
   <div class="slidecontainer">
     
-    <input type="range" min="1" max="100" value="50">
+    <input type="range" min="1" max="100" value="50" id="dateslider">
     
   </div>
   
   <script type="text/javascript" src="/time_net.js"></script>
+  
+  <script>
+    var slider = document.getElementById("dateslider");
+    var output = document.getElementById("value");
+    output.innerHTML = slider.value;
 
-  <div id="footer">
-    <div id="credits">
-      <li><span>Adapted from <a href="http://wordpress.org/themes/monospace">Monospace</a> | Created with <a href="https://github.com/getpelican/pelican">Pelican</a></span><li>
-    </div>
-  </div>
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+  </script>
 
 </body>
 </html>
