@@ -46,7 +46,7 @@
 
 <body>
 
-  <p>Value: <span id="value"></span></p>
+  <h2><span id="value"></span></h2>
   
   <div class="slidecontainer">
     
@@ -68,7 +68,7 @@
       var mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d);
       var da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
       
-      output.innerHTML = `${da}-${mo}-${ye}`;
+      output.innerHTML = `${da} ${mo} ${ye}`;
     }
   </script>
 
