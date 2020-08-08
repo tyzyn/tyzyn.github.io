@@ -73,8 +73,8 @@
   </script>
   
 <script>
-  var width = 960,
-      height = 500
+  var width = parseInt(screen.width * 0.9),
+      height = parseInt(screen.width * 0.8);
 
   var svg = d3.select("body").append("svg")
       .attr("width", width)
