@@ -82,8 +82,8 @@
 
   var force = d3.layout.force()
       .gravity(.05)
-      .distance(10)
-      .charge(-10)
+      .distance(30)
+      .charge(-30)
       .size([width, height]);
 
   d3.json("testgraph.json", function(json) {
