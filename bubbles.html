@@ -182,6 +182,11 @@ var cfg = chart.config(); // retrieve default config
 var svg2 = d3.select('#chart2').append('svg')
   .attr('width', cfg.w + cfg.w + 50)
   .attr('height', cfg.h + cfg.h / 4);
+  
+svg2.append("rect")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("fill", "pink");
 svg2.append('g').classed('single', 1).datum(randomDataset()).call(chart);
 </script>
 
