@@ -85,7 +85,7 @@
           {axis: "Right", value: 0}, 
           {axis: "Medical", value: 0},  
           {axis: "US Politics", value: 0},  
-          {axis: "Left", value: 0}
+          {axis: "Left/International", value: 0}
         ]
     }];
     render(empty);
@@ -94,6 +94,17 @@
   function handleMouseOver(d, i) {
     console.log(d['phrase']);
     console.log(d['communities']);
+    var data = [
+      {
+        axes: [
+          {axis:"Business/Asia", value: d['communities']["Business/Asia"]},
+          {axis:"Right", value: d['communities']["Right"]},
+          {axis:"Medical", value: d['communities']["Medical"]},
+          {axis:"US Politics", value: d['communities']["US Politics"]},
+          {axis:"Left/International", value: d['communities']["Left/International"]},
+        ]
+      }
+    ];
     render(randomDataset());
   };
 </script>
@@ -115,7 +126,7 @@ var data = [
       {axis: "Right", value: 6}, 
       {axis: "Medical", value: 5},  
       {axis: "US Politics", value: 9},  
-      {axis: "Left", value: 2}
+      {axis: "Left/International", value: 2}
     ]
   }
 ];
