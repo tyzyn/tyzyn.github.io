@@ -24,7 +24,7 @@
   <div class="bubblecontainer" id="chart1">
   </div>
   <div class="detailcontainer" id="chart2">
-    <h2><span id="value"></span></h2>
+    <h2><span id="value">Hover over a circle to see a key phrase.</span></h2>
   </div>
   
 <script>
@@ -62,7 +62,7 @@
   
   function handleMouseRemove(d, i) {
     var output = document.getElementById("value");
-    output.innerHTML = "";
+    output.innerHTML = "Hover over a circle to see a key phrase.";
   };
   
   function handleMouseOver(d, i) {
