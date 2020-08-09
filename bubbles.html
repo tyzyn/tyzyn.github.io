@@ -177,17 +177,18 @@ function randomDataset() {
 </script>
 
 <script>
-var chart = RadarChart.chart();
-var cfg = chart.config(); // retrieve default config
-var svg2 = d3.select('#chart2').append('svg')
-  .attr('width', width-height)
-  .attr('height', height);
+  var chart = RadarChart.chart();
+  var cfg = chart.config(); // retrieve default config
+  var svg2 = d3.select('#chart2').append('svg')
+    .attr('width', width-height)
+    .attr('height', height);
   
-svg2.append("rect")
-    .attr("width", "100%")
-    .attr("height", "100%")
-    .attr("fill", "pink");
-svg2.append('g').classed('single', 1).datum(randomDataset()).call(chart);
+  function render() {
+    svg2.append('g').classed('single', 1).datum(randomDataset()).call(chart);
+    setTimeout(render, 1000);
+  }
+  render();
+  
 </script>
 
 </body>
