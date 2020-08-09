@@ -23,20 +23,14 @@
   <style>
     .radar-chart .area {
       fill-opacity: 0.7;
+      fill: #FFD700;
+      stroke: none;
     }
     .radar-chart.focus .area {
       fill-opacity: 0.3;
     }
     .radar-chart.focus .area.focused {
       fill-opacity: 0.9;
-    }
-    .area.germany, .germany .circle {
-      fill: #FFD700;
-      stroke: none;
-    }
-    .area.argentina, .argentina .circle {
-      fill: #ADD8E6;
-      stroke: none;
     }
   </style>
 </head>
@@ -87,11 +81,11 @@
   function handleMouseRemove(d, i) {
     var empty = [{
         axes: [
-          {axis: "strength", value: 0}, 
-          {axis: "intelligence", value: 0}, 
-          {axis: "charisma", value: 0},  
-          {axis: "dexterity", value: 0},  
-          {axis: "luck", value: 0}
+          {axis: "Business/Asia", value: 0}, 
+          {axis: "Right", value: 0}, 
+          {axis: "Medical", value: 0},  
+          {axis: "US Politics", value: 0},  
+          {axis: "Left", value: 0}
         ]
     }];
     render(empty);
@@ -115,11 +109,11 @@ RadarChart.defaultConfig.h = 400;
 var data = [
   {
     axes: [
-      {axis: "strength", value: 13}, 
-      {axis: "intelligence", value: 6}, 
-      {axis: "charisma", value: 5},  
-      {axis: "dexterity", value: 9},  
-      {axis: "luck", value: 2}
+      {axis: "Business/Asia", value: 13}, 
+      {axis: "Right", value: 6}, 
+      {axis: "Medical", value: 5},  
+      {axis: "US Politics", value: 9},  
+      {axis: "Left", value: 2}
     ]
   }
 ];
@@ -142,7 +136,7 @@ function randomDataset() {
     .attr('width', width - height)
     .attr('height', height);
   
-  chart.config({w: cfg.w / 2, h: cfg.h / 2, axisText: false, levels: 0, circles: false});
+  chart.config({w: cfg.w / 2, h: cfg.h / 2, axisText: true, levels: 0, circles: false});
   cfg = chart.config();
   
   function render(d) {
