@@ -149,6 +149,14 @@ function randomDataset() {
     .attr('width', width - height)
     .attr('height', height);
   
+  svg2.append("text")
+        .attr("x", (width - height) / 2)             
+        .attr("y", height / 4)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("coronavirus outbreaks");
+  
   chart.config({w: cfg.w / 2, h: cfg.h / 2, axisText: true, levels: 0, circles: false});
   cfg = chart.config();
   
