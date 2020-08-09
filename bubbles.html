@@ -121,14 +121,10 @@
   });
   
   function handleMouseRemove(d, i) {
-    var output = document.getElementById("value");
-    output.innerHTML = "Hover over a circle to see a key phrase.";
+    render();
   };
   
   function handleMouseOver(d, i) {
-    var s = d['c'];
-    var output = document.getElementById("value");
-    output.innerHTML = s;
     render(randomDataset());
   };
 </script>
