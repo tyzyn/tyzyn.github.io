@@ -16,7 +16,7 @@
       height = parseInt(screen.height * 0.8);
 
   var svg = d3.select("body").append("svg")
-      .attr("width", width)
+      .attr("width", height)
       .attr("height", height);
 
   d3.json("bubble_data.json", function(bubbles) {
