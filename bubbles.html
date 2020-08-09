@@ -92,6 +92,8 @@
   };
   
   function handleMouseOver(d, i) {
+    console.log(d['phrase']);
+    console.log(d['communities']);
     render(randomDataset());
   };
 </script>
@@ -140,7 +142,6 @@ function randomDataset() {
   cfg = chart.config();
   
   function render(d) {
-    console.log("render");
     var game = svg2.selectAll('g.game').data([d]);
     game.enter().append('g').classed('game', 1);
     game.attr('transform', function(d, i) { return 'translate('+((width - height) / 2)+','+ (height / 3) +')'; })
