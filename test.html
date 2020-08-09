@@ -65,7 +65,8 @@
             });
         })
         .on("mouseout", function(d) {
-          console.log(d);
+          node.selectAll("text")
+            .text("");
         });
     
     node.append("text")
