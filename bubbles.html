@@ -79,6 +79,8 @@
   });
   
   function handleMouseRemove(d, i) {
+    d3.select("#phrase")
+      .text("");
     var empty = [{
         axes: [
           {axis: "Business/Asia", value: 0}, 
@@ -92,8 +94,9 @@
   };
   
   function handleMouseOver(d, i) {
-    console.log(d['phrase']);
-    console.log(d['communities']);
+    d3.select("#phrase")
+      .text(d['phrase']);
+    
     var data = [
       {
         axes: [
@@ -157,9 +160,6 @@ function randomDataset() {
         .style("font-size", "16px") 
         .style("text-decoration", "underline")
         .text("");
-  
-  d3.select("#phrase")
-    .text("test");
   
   chart.config({w: cfg.w / 2, h: cfg.h / 2, axisText: true, levels: 0, circles: false});
   cfg = chart.config();
