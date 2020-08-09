@@ -55,9 +55,15 @@
         .attr("r","5")
         .attr("fill", function(d) {return ["#00035b", "#f4320c", "#13bbaf", "#c875c4", "#fffe71"][d.group]; })
         .on("mouseover", function(d) {
-          console.log(d);
-          console.log(this);
-        })					
+          node.selectAll("text")
+            .text(function(t) {
+              if (d['ind'] == t['ind']) {
+                return d['name'];
+              } else {
+                return "";
+              }
+            });
+        })
         .on("mouseout", function(d) {
           console.log(d);
         });
@@ -68,13 +74,7 @@
       .attr("ind", function(d) {
         return d['ind'];
       })
-      .text(function(d) {
-        if (d['ind'] == 100) {
-          return d['name'];
-        } else {
-          return "";
-        }
-      });
+      .text("");
 
     force.on("tick", function() {
       link.attr("x1", function(d) { return d.source.x; })
