@@ -5,19 +5,29 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
   <script src="https://d3js.org/d3.v3.min.js"></script>
+  <style>
+    .container {
+      float: left;
+    }
+  </style>
 </head>
 
 <body>
 
   <h2>Top 2000 Phrases taken from Coronavirus Tweets</h2>
   
+  <div class="container" id="chart1">
+  </div>
+  <div class="container" id="chart2">
+  </div>
+  
 <script>
   var width = parseInt(screen.width * 0.9),
       height = parseInt(screen.height * 0.8);
-
-  var svg = d3.select("body").append("svg")
-      .attr("width", height)
-      .attr("height", height);
+  
+  var svg = d3.select("#chart1").append("svg")
+  .attr("width", height)
+  .attr("height", height);
 
   d3.json("bubble_data.json", function(bubbles) {
     var w = height / bubbles['imsize'];
