@@ -71,8 +71,7 @@
     node.append("text")
       .attr("dx", 12)
       .attr("dy", ".35em")
-      .attr("fill-opacity", 0)
-      .text(function(d) { return d.name });
+      .text(function(d) { return "" });
 
     force.on("tick", function() {
       link.attr("x1", function(d) { return d.source.x; })
