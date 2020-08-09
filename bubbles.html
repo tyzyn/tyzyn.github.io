@@ -6,8 +6,11 @@
   <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <style>
-    .container {
+    .bubblecontainer {
       float: left;
+    }
+    .detailcontainer {
+      float: right;
     }
   </style>
 </head>
@@ -16,23 +19,32 @@
 
   <h2>Top 2000 Phrases taken from Coronavirus Tweets</h2>
   
-  <div class="container" id="chart1">
+  <div class="bubblecontainer" id="chart1">
   </div>
-  <div class="container" id="chart2">
+  <div class="detailcontainer" id="chart2">
   </div>
   
 <script>
   var width = parseInt(screen.width * 0.9),
       height = parseInt(screen.height * 0.8);
   
-  var svg = d3.select("#chart1").append("svg")
+  var svg1 = d3.select("#chart1").append("svg")
   .attr("width", height)
   .attr("height", height);
+  
+  var svg2 = d3.select("#chart2").append("svg")
+  .attr("width", width-height)
+  .attr("height", height);
+  
+  svg2.append("rect")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("fill", "pink");
 
   d3.json("bubble_data.json", function(bubbles) {
     var w = height / bubbles['imsize'];
     
-    var circles = svg.selectAll("circle")
+    var circles = svg1.selectAll("circle")
     .data(bubbles.nodes)
     .enter().append("circle")
     .on('mouseover', handleMouseOver);
