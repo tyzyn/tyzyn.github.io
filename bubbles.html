@@ -153,9 +153,13 @@ function randomDataset() {
         .attr("x", (width - height) / 2)             
         .attr("y", height / 4)
         .attr("text-anchor", "middle")  
+        .attr("id", "phrase")
         .style("font-size", "16px") 
-        .style("text-decoration", "underline")  
-        .text("coronavirus outbreaks");
+        .style("text-decoration", "underline")
+        .text("");
+  
+  d3.select("#phrase")
+    .text("test");
   
   chart.config({w: cfg.w / 2, h: cfg.h / 2, axisText: true, levels: 0, circles: false});
   cfg = chart.config();
