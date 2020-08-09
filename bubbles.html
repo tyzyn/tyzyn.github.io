@@ -24,6 +24,10 @@
       .distance(30)
       .charge(-30)
       .size([width, height]);
+  
+  d3.json("bubble_data.json", function(json) {
+    console.log(json.nodes);
+  }
 
   d3.json("testgraph.json", function(json) {
     force
