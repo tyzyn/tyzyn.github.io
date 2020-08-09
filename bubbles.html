@@ -25,8 +25,8 @@
     .enter().append("circle");
     
     var circleAttributes = circles
-    .attr("cx", function (d) { return d['im_x']; })
-    .attr("cy", function (d) { return d['im_y']; })
+    .attr("cx", function (d) { return (d['im_x'] * height) + (height / 2); })
+    .attr("cy", function (d) { return (d['im_y'] * height) + (height / 2); })
     .attr("r", function (d) { return 3; })
     .style("fill", function(d) { return d.c; });
   });
