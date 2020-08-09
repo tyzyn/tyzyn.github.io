@@ -44,10 +44,15 @@
 <body>
   
   <script>
+    var width = parseInt(screen.width * 0.9),
+        height = parseInt(screen.height * 0.8);
+  </script>
+  
+  <script>
     RadarChart.defaultConfig.color = function() {};
     RadarChart.defaultConfig.radius = 3;
-    RadarChart.defaultConfig.w = 400;
-    RadarChart.defaultConfig.h = 400;
+    RadarChart.defaultConfig.w = width - height;
+    RadarChart.defaultConfig.h = width - height;
   </script>
   
   <script>
@@ -95,9 +100,6 @@
   </div>
   
 <script>
-  var width = parseInt(screen.width * 0.9),
-      height = parseInt(screen.height * 0.8);
-  
   var svg1 = d3.select("#chart1").append("svg")
   .attr("width", height)
   .attr("height", height);
