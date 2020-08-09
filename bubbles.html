@@ -79,6 +79,17 @@
       }
     ];
     
+   function emptyDataset() {
+      return data.map(function(d) {
+        return {
+          className: d.className,
+          axes: d.axes.map(function(axis) {
+            return {axis: axis.axis, value: 0)};
+          })
+        };
+      });
+    }
+    
     function randomDataset() {
       return data.map(function(d) {
         return {
@@ -121,7 +132,7 @@
   });
   
   function handleMouseRemove(d, i) {
-    render();
+    render(emptyDataset());
   };
   
   function handleMouseOver(d, i) {
