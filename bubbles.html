@@ -24,6 +24,7 @@
   <div class="bubblecontainer" id="chart1">
   </div>
   <div class="detailcontainer" id="chart2">
+    <h2><span id="value"></span></h2>
   </div>
   
 <script>
@@ -49,7 +50,8 @@
     var circles = svg1.selectAll("circle")
     .data(bubbles.nodes)
     .enter().append("circle")
-    .on('mouseover', handleMouseOver);
+    .on('mouseover', handleMouseOver)
+    .on('mouseout', handleMouseRemove);
     
     var circleAttributes = circles
     .attr("cx", function (d) { return d['im_x'] * w; })
@@ -58,12 +60,15 @@
     .style("fill", function(d) { return d.c; });
   });
   
+  function handleMouseRemove(d, i) {
+    var output = document.getElementById("value");
+    output.innerHTML = "";
+  };
+  
   function handleMouseOver(d, i) {
-    console.log(d);
-    console.log(i);
-    d3.select(this).attr({
-      fill: "orange"
-    });
+    var s = d['c'];
+    var output = document.getElementById("value");
+    output.innerHTML = s;
   };
 </script>
 
