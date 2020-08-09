@@ -172,7 +172,7 @@ function randomDataset() {
   function render(d) {
     var game = svg2.selectAll('g.game').data([d]);
     game.enter().append('g').classed('game', 1);
-    game.attr('transform', function(d, i) { return 'translate('+((width - height) / 2)+','+ (height / 3) +')'; })
+    game.attr('transform', function(d, i) { return 'translate('+(((width - height) / 2) - cfg.w / 2)+','+ (height / 3) +')'; })
         .call(chart);
   }
   
