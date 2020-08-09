@@ -40,11 +40,6 @@
         .attr("class", "link")
         .attr("stroke", "#999")
         .attr("stroke-opacity", 0.6);
-    
-    color = {
-      var colors = ["#00035b", "#f4320c", "#13bbaf", "#c875c4", "#fffe71"];
-      return d => colors[d.group];
-    }
 
     var node = svg.selectAll(".node")
         .data(json.nodes)
@@ -54,7 +49,7 @@
 
     node.append("circle")
         .attr("r","5")
-        .attr("fill", color);
+        .attr("fill", function(d) {return ["#00035b", "#f4320c", "#13bbaf", "#c875c4", "#fffe71"][d.group]; });
 
     force.on("tick", function() {
       link.attr("x1", function(d) { return d.source.x; })
