@@ -192,9 +192,9 @@ function randomDataset() {
     game.enter().append('g').classed('game', 1);
     game.attr('transform', function(d, i) { return 'translate('+((width - height) / 2)+','+ (cfg.h * 1.5) +')'; })
         .call(chart);
-
-    setTimeout(render, 1000);
   }
+  
+  render();
 </script>
 
 </body>
