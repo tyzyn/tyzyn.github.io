@@ -86,7 +86,6 @@
   
   function handleMouseRemove(d, i) {
     var empty = [{
-        className: 'argentina',
         axes: [
           {axis: "strength", value: 0}, 
           {axis: "intelligence", value: 0}, 
@@ -115,7 +114,6 @@ RadarChart.defaultConfig.h = 400;
 <script>
 var data = [
   {
-    className: 'germany', // optional can be used for styling
     axes: [
       {axis: "strength", value: 13}, 
       {axis: "intelligence", value: 6}, 
@@ -151,7 +149,7 @@ function randomDataset() {
     console.log("render");
     var game = svg2.selectAll('g.game').data([d]);
     game.enter().append('g').classed('game', 1);
-    game.attr('transform', function(d, i) { return 'translate('+((width - height) / 2)+','+ (cfg.h * 1.5) +')'; })
+    game.attr('transform', function(d, i) { return 'translate('+((width - height) / 2)+','+ (height / 2) +')'; })
         .call(chart);
   }
   
