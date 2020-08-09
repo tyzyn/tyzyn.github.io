@@ -24,7 +24,8 @@
     
     var circles = svg.selectAll("circle")
     .data(bubbles.nodes)
-    .enter().append("circle");
+    .enter().append("circle")
+    .on("mouseover", handleMouseOver);
     
     var circleAttributes = circles
     .attr("cx", function (d) { return d['im_x'] * w; })
@@ -32,6 +33,12 @@
     .attr("r", function (d) { return d['r'] * 8.3; })
     .style("fill", function(d) { return d.c; });
   });
+  
+  function handleMouseOver(d, i) {
+    d3.select(this).attr({
+      fill: "orange"
+    });
+  };
 </script>
 
 </body>
