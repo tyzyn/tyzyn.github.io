@@ -33,6 +33,10 @@
         .nodes(json.nodes)
         .links(json.links)
         .start();
+    
+    var div = d3.select("body").append("div")	
+        .attr("class", "tooltip")				
+        .style("opacity", 0);
 
     var link = svg.selectAll(".link")
         .data(json.links)
