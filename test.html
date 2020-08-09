@@ -55,6 +55,7 @@
         .attr("r","5")
         .attr("fill", function(d) {return ["#00035b", "#f4320c", "#13bbaf", "#c875c4", "#fffe71"][d.group]; })
         .on("mouseover", function(d) {
+          console.log(d);
           d3.select(this).select("text").text(function(d) {return d['name'];});
         })					
         .on("mouseout", function(d) {
