@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Moto. Etc.
+subtitle: Interested in natural language processing, computational social science, and extreme politics and misinformation on social networks.
 
 profile:
   align: right
@@ -16,8 +16,8 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: false  # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I am a Data Scientist at [glass.ai](http://glass.ai), focusing on natural language processing and machine learning. My responsibilities encompass client-oriented projects for entities such as [Ipsos](https://www.ipsos.com/en-uk), [UKRI](https://www.ukri.org/), and the [Department for Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport). In my role, I contribute to the development of algorithms for company discovery, classification, and growth signal detection from web scraped content.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+Previously I've been a Software Engineer at [JPMorgan Chase & Co](https://www.jpmorgan.com/) building dashboards with [kdb+](https://code.kx.com/q/) and [Grafana](https://grafana.com/).
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+Prior to this, I graduated with a Distinction in MSc Data Science from the [University of Exeter](https://www.exeter.ac.uk/). My supervisor was [Hywel Williams](https://computerscience.exeter.ac.uk/staff/htpw201) and for my thesis I looked at the feasibility of electoral prediction using socially generated data, using Twitter as a case study. I completed my BSc in Computer Science and Mathematics also at the University of Exeter.
