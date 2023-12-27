@@ -6,7 +6,7 @@ subtitle: Interested in natural language processing, computational social scienc
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: prof_pic1.jpeg
   image_circular: false # crops the image to make it circular
   more_info: >
 
